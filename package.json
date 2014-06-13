@@ -1,32 +1,30 @@
 {
-  "name": "node-misp",
+  "name": "rainmood",
   "version": "0.0.1",
-  "description": "a node MIps Simulator with Pipeline",
+  "description": "a CLI RainyMood, and you can fix your own relax sounds",
   "main": "index.js",
   "directories": {
-    "example": "examples"
   },
   "scripts": {
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/whatever1992/node-misp.git"
+    "url": "https://github.com/whatever1992/rainmood.git"
   },
   "keywords": [
     "node",
-    "MIPS",
-    "Simulator",
-    "pipline"
+    "relex",
+    "rainy"
   ],
   "dependencies": {
   },
   "devDependencies": {
   },
   "author": "whatever1992",
-  "license": "GPL",
+  "license": "GPLv3",
   "readmeFilename": "README.md",
   "gitHead": "",
   "bugs": {
-    "url": "https://github.com/whatever1992/node-misp/issues"
+    "url": "https://github.com/whatever1992/rainmood/issues"
   }
 }
