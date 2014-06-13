@@ -1,0 +1,14 @@
+{
+  "soundlist" :
+  [
+    "rain.mp3",
+    "thunder.mp3"
+  ],
+  "playlist" :
+  [
+    0,
+    1
+  ],
+  "home" : "/Users/whatever/.rainy"
+
+}

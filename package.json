@@ -1,0 +1,32 @@
+{
+  "name": "node-misp",
+  "version": "0.0.1",
+  "description": "a node MIps Simulator with Pipeline",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whatever1992/node-misp.git"
+  },
+  "keywords": [
+    "node",
+    "MIPS",
+    "Simulator",
+    "pipline"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "author": "whatever1992",
+  "license": "GPL",
+  "readmeFilename": "README.md",
+  "gitHead": "",
+  "bugs": {
+    "url": "https://github.com/whatever1992/node-misp/issues"
+  }
+}
