@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 RainyMood
 ---
 a CLI RainyMood, and you can fix your own relax sounds
@@ -21,9 +20,3 @@ just tested on Mac OSX
 
 ### LICENSE
 GPLv3
-=======
-rainymood
-=========
-
-a CLI RainyMood, and you can fix your own relax sounds
->>>>>>> origin/master

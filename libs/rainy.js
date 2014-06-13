@@ -5,6 +5,11 @@ var cluster = require('cluster');
 var fs = require('fs');
 var utils = require('./utils');
 
+var STATUS = {
+  playing : 0,
+  notplay : 1
+}
+
 var removeListElement = function (list, index) {
   list = list.splice(index, 1);
 }
@@ -12,9 +17,10 @@ var removeListElement = function (list, index) {
 var Rainy = module.exports = function() {
   this.version = "0.0.1";
 
-  this.sounds   = ["rain.mp3","thunder.mp3"];
+  this.sounds   = ["rain.mp3","thunder.mp3","waves.mp3"];
   this.playlist = [];
   this.home = utils.home();
+  this.status = STATUS.notplay;
 }
 
 Rainy.prototype.play = function(songname) {
@@ -27,7 +33,6 @@ Rainy.prototype.play = function(songname) {
       worker.send(songname);
     }
   } else {
-
     var path = '../res/' + songname;
     var player = new Player(path);
     player.play();
@@ -72,7 +77,7 @@ Rainy.prototype.execCommand = function(commands) {
     // List All resources with a id
     var i = 1;
     for(var sound in this.sounds ) {
-      console.log(i + " " + this.sounds[i]);
+      console.log(i + " " + this.sounds[i-1]);
       i++;
     }
   } else if (cmd === "lp") {
@@ -82,6 +87,7 @@ Rainy.prototype.execCommand = function(commands) {
     };
   } else if (cmd === "p") {
     // Play the sounds
+    self.status = STATUS.playing;
     self.play();
   } else if (cmd === "s") {
     // Stop the sounds
@@ -94,6 +100,7 @@ Rainy.prototype.execCommand = function(commands) {
       // kill all workers
       worker.kill('SIGKILL');
     });
+    this.status = STATUS.notplay;
   } else if (cmd === "h") {
     // show Help
     self.help();
@@ -113,7 +120,14 @@ Rainy.prototype.execCommand = function(commands) {
           }
         }
         if (!inplaylist) {
-          self.playlist.push([index, sound, 0]);
+          var workerid = 0;
+          if (this.status === STATUS.playing) {
+            // fork a new one processing
+            var worker = cluster.fork();
+            workerid = worker.id;
+            worker.send(sound);
+          }
+          self.playlist.push([index, sound, workerid]);
         } else {
           console.log("has been added");
         }
@@ -130,7 +144,14 @@ Rainy.prototype.execCommand = function(commands) {
     for(var i = 1; i < tokens.length; i++){
       var index = parseInt(tokens[i]) - 1;
       if (this.playlist[index] != undefined) {
+        if (this.status === STATUS.playing) {
+          // remove the worker
+          var id = this.playlist[index][2];
+          cluster.workers[id].kill('SIGKILL');
+        }
+        // remove from playlist
         removeListElement(this.playlist, index);
+
       }
     }
   } else if (cmd == "c") {
@@ -189,6 +210,7 @@ Rainy.prototype.init = function() {
     // recive the song name and play it
     process.on('message', function(msg) {
       // the workers just play the sound
+      // console.log(msg);
       self.play(msg);
     });
   }
